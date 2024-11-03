@@ -1,0 +1,53 @@
+package com.example.GroupProject_4.service;
+
+import com.example.GroupProject_4.model.Entity.PostEntity;
+import com.example.GroupProject_4.model.Entity.UserEntity;
+import com.example.GroupProject_4.repository.PostRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+@AllArgsConstructor
+@Service
+public class PostService {
+
+    private PostRepository postRepository;
+
+    //@Transactional
+    public PostEntity createPost(PostEntity postEntity) {
+        return postRepository.save(postEntity);
+    }
+
+    public Page<PostEntity> getAllPosts(Integer pageNumber, Integer pageSize, Sort.Direction direction, String sortBy) {
+        return postRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(direction, sortBy)));
+    }
+
+    public Page<PostEntity> getAllPostsByUserId(Long userId, Integer pageNumber, Integer pageSize, Sort.Direction direction, String sortBy) {
+        return postRepository.findAllPostsByUser(userId, PageRequest.of(pageNumber, pageSize, Sort.by(direction, sortBy)));
+    }
+
+    public PostEntity getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post with id %d was not found".formatted(postId)));
+    }
+
+    public String deletePost(Long userId, Long postId) {
+        postRepository.delete(getPostById(postId));
+        return "Post with id %d was deleted".formatted(postId);
+    }
+
+    @Transactional
+    public PostEntity editPost(Long userId, Long postId, PostEntity postEntity) {
+        PostEntity postToEdit = getPostById(postId);
+        if (!Objects.equals(postToEdit.getOwner().getId(), userId))
+            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+        postToEdit.setContent(postEntity.getContent());
+        postToEdit.setOwner(postEntity.getOwner());
+        return postToEdit;
+    }
+}
