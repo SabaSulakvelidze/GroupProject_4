@@ -18,7 +18,6 @@ public class PostService {
 
     private PostRepository postRepository;
 
-    //@Transactional
     public PostEntity createPost(PostEntity postEntity) {
         return postRepository.save(postEntity);
     }
