@@ -37,12 +37,15 @@ public class PostService {
     }
 
     public String deletePost(Long userId, Long postId) {
-        postRepository.delete(getPostById(postId));
+        PostEntity postById = getPostById(postId);
+        if (!Objects.equals(postById.getOwner().getId(), userId))
+            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+        postRepository.delete(postById);
         return "Post with id %d was deleted".formatted(postId);
     }
 
     @Transactional
-    public PostEntity editPost(Long userId, Long postId, PostEntity postEntity) {
+    public PostEntity editPost(Long postId, Long userId, PostEntity postEntity) {
         PostEntity postToEdit = getPostById(postId);
         if (!Objects.equals(postToEdit.getOwner().getId(), userId))
             throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));

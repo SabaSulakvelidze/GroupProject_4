@@ -1,54 +1,58 @@
 package com.example.GroupProject_4.controller;
 
-import com.example.GroupProject_4.model.Dto.PostDto;
 import com.example.GroupProject_4.model.Entity.PostEntity;
+import com.example.GroupProject_4.model.request.PostRequest;
+import com.example.GroupProject_4.model.response.PostResponse;
 import com.example.GroupProject_4.service.PostService;
+import com.example.GroupProject_4.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("Posts")
+@RequestMapping("/Posts")
 @AllArgsConstructor
 public class PostController {
 
     private PostService postService;
+    private UserService userService;
 
     @GetMapping("/GetAllPosts")
-    public Page<PostDto> getAllPosts(@RequestParam(defaultValue = "0") Integer pageNumber,
-                                     @RequestParam(defaultValue = "5") Integer pageSize,
-                                     @RequestParam(defaultValue = "ASC") Sort.Direction direction,
-                                     @RequestParam(defaultValue = "id") String sortBy) {
-        return postService.getAllPosts(pageNumber, pageSize, direction, sortBy).map(PostDto::from);
+    public Page<PostResponse> getAllPosts(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                          @RequestParam(defaultValue = "5") Integer pageSize,
+                                          @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+                                          @RequestParam(defaultValue = "id") String sortBy) {
+        return postService.getAllPosts(pageNumber, pageSize, direction, sortBy).map(PostResponse::from);
     }
 
-    @GetMapping("/GetAllPostsByUserId/{ownerId}")
-    public Page<PostDto> getAllPostsByUserId(@PathVariable Long ownerId,
-                                             @RequestParam(defaultValue = "0") Integer pageNumber,
-                                             @RequestParam(defaultValue = "5") Integer pageSize,
-                                             @RequestParam(defaultValue = "ASC") Sort.Direction direction,
-                                             @RequestParam(defaultValue = "id") String sortBy) {
-        return postService.getAllPostsByUserId(ownerId, pageNumber, pageSize, direction, sortBy).map(PostDto::from);
+    @GetMapping("/GetAllPostsByUserId")
+    public Page<PostResponse> getAllPostsByUserId(@RequestParam Long ownerId,
+                                                  @RequestParam(defaultValue = "0") Integer pageNumber,
+                                                  @RequestParam(defaultValue = "5") Integer pageSize,
+                                                  @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+                                                  @RequestParam(defaultValue = "id") String sortBy) {
+        userService.getUserById(ownerId);
+        return postService.getAllPostsByUserId(ownerId, pageNumber, pageSize, direction, sortBy).map(PostResponse::from);
     }
 
-    @GetMapping("/getSinglePost/{userId}")
-    public PostDto getPostById(@PathVariable Long userId) {
-        return PostDto.from(postService.getPostById(userId));
+    @GetMapping("/getSinglePost/{postId}")
+    public PostResponse getPostById(@PathVariable Long postId) {
+        return PostResponse.from(postService.getPostById(postId));
     }
 
     @PostMapping("/CreateNewPost")
-    public PostDto createPost(@RequestBody PostDto postdto) {
-        return PostDto.from(postService.createPost(PostEntity.from(postdto)));
+    public PostResponse createPost(@RequestBody PostRequest postRequest) {
+        return PostResponse.from(postService.createPost(PostEntity.from(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 
-    @PutMapping("/EditPost/{userId}")
-    public PostDto editPost(@RequestParam Long userId, @PathVariable Long postId, @RequestBody PostDto postdto) {
-        return PostDto.from(postService.editPost(userId, postId, PostEntity.from(postdto)));
+    @PutMapping("/EditPost/{postId}")
+    public PostResponse editPost(@PathVariable Long postId, @RequestParam Long userId, @RequestBody PostRequest postRequest) {
+        return PostResponse.from(postService.editPost(postId, userId, PostEntity.from(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 
-    @DeleteMapping("/Delete/{userId}")
-    public String deletePost(@RequestParam Long userId, @PathVariable Long postId) {
+    @DeleteMapping("/Delete/{postId}")
+    public String deletePost(@PathVariable Long postId, @RequestParam Long userId) {
         return postService.deletePost(userId, postId);
     }
 }

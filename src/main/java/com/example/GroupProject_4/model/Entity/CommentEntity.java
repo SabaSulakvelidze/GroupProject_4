@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.model.Entity;
 
-import com.example.GroupProject_4.model.Dto.CommentDto;
+import com.example.GroupProject_4.model.request.CommentRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,13 +20,19 @@ public class CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity creator;
+    private UserEntity owner;
 
-    public static CommentEntity from(CommentDto commentDto){
+    public static CommentEntity from(CommentRequest commentRequest, PostEntity postEntity, UserEntity userEntity){
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setText(commentDto.getText());
-        commentEntity.setPost(commentDto.getPost());
-        commentEntity.setCreator(commentDto.getCreator());
+        commentEntity.setText(commentRequest.getText());
+        commentEntity.setPost(postEntity);
+        commentEntity.setOwner(userEntity);
+        return commentEntity;
+    }
+
+    public static CommentEntity from(CommentRequest commentRequest){
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setText(commentRequest.getText());
         return commentEntity;
     }
 }

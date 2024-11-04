@@ -1,20 +1,20 @@
-package com.example.GroupProject_4.model.Dto;
+package com.example.GroupProject_4.model.response;
 
 import com.example.GroupProject_4.model.Entity.PostEntity;
 import com.example.GroupProject_4.model.Entity.UserEntity;
 import lombok.Data;
 
 @Data
-public class PostDto {
+public class PostResponse {
     private Long id;
     private String content;
-    private UserEntity owner;
+    private UserResponse owner;
 
-    public static PostDto from(PostEntity postEntity){
-        PostDto postDto = new PostDto();
+    public static PostResponse from(PostEntity postEntity){
+        PostResponse postDto = new PostResponse();
         postDto.setId(postEntity.getId());
         postDto.setContent(postEntity.getContent());
-        postDto.setOwner(postEntity.getOwner());
+        postDto.setOwner(UserResponse.from(postEntity.getOwner()));
         return postDto;
     }
 }

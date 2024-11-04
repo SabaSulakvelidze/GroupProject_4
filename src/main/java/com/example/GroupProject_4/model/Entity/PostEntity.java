@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.model.Entity;
 
-import com.example.GroupProject_4.model.Dto.PostDto;
+import com.example.GroupProject_4.model.request.PostRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,10 +18,10 @@ public class PostEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private UserEntity owner;
 
-    public static PostEntity from(PostDto postDto){
+    public static PostEntity from(PostRequest postRequest,UserEntity userEntity){
         PostEntity postEntity = new PostEntity();
-        postEntity.setContent(postDto.getContent());
-        postEntity.setOwner(postDto.getOwner());
+        postEntity.setContent(postRequest.getContent());
+        postEntity.setOwner(userEntity);
         return postEntity;
     }
 }

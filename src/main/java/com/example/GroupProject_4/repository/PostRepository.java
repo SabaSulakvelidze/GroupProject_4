@@ -12,7 +12,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query("""
             FROM PostEntity p
-            WHERE p.owner = :ownerId
+            WHERE p.owner.id = :ownerId
             """)
     Page<PostEntity> findAllPostsByUser(Long ownerId, PageRequest pageRequest);
 }

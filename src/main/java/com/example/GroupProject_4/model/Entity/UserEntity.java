@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.model.Entity;
 
-import com.example.GroupProject_4.model.Dto.UserDto;
+import com.example.GroupProject_4.model.request.UserRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,12 +24,12 @@ public class UserEntity {
 
     private LocalDate birthDate;
 
-    public static UserEntity from(UserDto userDto){
+    public static UserEntity from(UserRequest userRequest){
         UserEntity userEntity = new UserEntity();
-        userEntity.setFirstName(userDto.getFirstName());
-        userEntity.setLastName(userDto.getLastName());
-        userEntity.setUserName(userDto.getUserName());
-        userEntity.setBirthDate(userDto.getBirthDate());
+        userEntity.setFirstName(userRequest.getFirstName());
+        userEntity.setLastName(userRequest.getLastName());
+        userEntity.setUserName(userRequest.getUserName());
+        userEntity.setBirthDate(userRequest.getBirthDate());
         return userEntity;
     }
 }
