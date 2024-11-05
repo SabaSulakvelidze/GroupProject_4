@@ -18,7 +18,7 @@ public class PostEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private UserEntity owner;
 
-    public static PostEntity from(PostRequest postRequest,UserEntity userEntity){
+    public static PostEntity toPostEntity(PostRequest postRequest, UserEntity userEntity){
         PostEntity postEntity = new PostEntity();
         postEntity.setContent(postRequest.getContent());
         postEntity.setOwner(userEntity);

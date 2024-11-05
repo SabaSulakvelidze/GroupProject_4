@@ -26,7 +26,7 @@ public class CommentController {
                                                 @RequestParam(defaultValue = "5") Integer pageSize,
                                                 @RequestParam(defaultValue = "ASC") Sort.Direction direction,
                                                 @RequestParam(defaultValue = "id") String sortBy) {
-        return commentService.getAllComment(pageNumber, pageSize, direction, sortBy).map(CommentResponse::from);
+        return commentService.getAllComment(pageNumber, pageSize, direction, sortBy).map(CommentResponse::toCommentResponse);
     }
 
     @GetMapping("/GetAllCommentsByPostId")
@@ -36,24 +36,24 @@ public class CommentController {
                                                         @RequestParam(defaultValue = "ASC") Sort.Direction direction,
                                                         @RequestParam(defaultValue = "id") String sortBy) {
         postService.getPostById(postId);
-        return commentService.getAllCommentsByPostId(postId, pageNumber, pageSize, direction, sortBy).map(CommentResponse::from);
+        return commentService.getAllCommentsByPostId(postId, pageNumber, pageSize, direction, sortBy).map(CommentResponse::toCommentResponse);
     }
 
     @GetMapping("/getSingleComment/{commentId}")
     public CommentResponse getPostById(@PathVariable Long commentId) {
-        return CommentResponse.from(commentService.getCommentById(commentId));
+        return CommentResponse.toCommentResponse(commentService.getCommentById(commentId));
     }
 
     @PostMapping("/CreateComment")
     public CommentResponse createComment(@RequestBody CommentRequest commentRequest) {
         PostEntity postEntity = postService.getPostById(commentRequest.getPostId());
         UserEntity userEntity = userService.getUserById(commentRequest.getOwnerId());
-        return CommentResponse.from(commentService.createComment(CommentEntity.from(commentRequest,postEntity,userEntity)));
+        return CommentResponse.toCommentResponse(commentService.createComment(CommentEntity.toCommentEntity(commentRequest,postEntity,userEntity)));
     }
 
     @PutMapping("/EditComment/{commentId}")
     public CommentResponse editComment(@PathVariable Long commentId, @RequestParam Long userId, @RequestBody CommentRequest commentRequest) {
-        return CommentResponse.from(commentService.editComment(commentId,userId,CommentEntity.from(commentRequest)));
+        return CommentResponse.toCommentResponse(commentService.editComment(commentId,userId,CommentEntity.toCommentEntity(commentRequest)));
     }
 
     @DeleteMapping("/Delete/{commentId}")

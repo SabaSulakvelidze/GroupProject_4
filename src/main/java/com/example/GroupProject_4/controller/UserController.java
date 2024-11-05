@@ -21,22 +21,22 @@ public class UserController {
                                           @RequestParam(defaultValue = "5") Integer pageSize,
                                           @RequestParam(defaultValue = "ASC") Sort.Direction direction,
                                           @RequestParam(defaultValue = "id") String sortBy) {
-        return userService.getAllUsers(pageNumber, pageSize, direction, sortBy).map(UserResponse::from);
+        return userService.getAllUsers(pageNumber, pageSize, direction, sortBy).map(UserResponse::toUserResponse);
     }
 
     @GetMapping("/getSingleUser/{userId}")
     public UserResponse getUserById(@PathVariable Long userId) {
-        return UserResponse.from(userService.getUserById(userId));
+        return UserResponse.toUserResponse(userService.getUserById(userId));
     }
 
     @PostMapping("/CreateUser")
     public UserResponse createUser(@RequestBody UserRequest userRequest) {
-        return UserResponse.from(userService.addNewUser(UserEntity.from(userRequest)));
+        return UserResponse.toUserResponse(userService.addNewUser(UserEntity.toUserEntity(userRequest)));
     }
 
     @PutMapping("/EditUser/{userId}")
     public UserResponse editUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
-        return UserResponse.from(userService.editUser(userId, UserEntity.from(userRequest)));
+        return UserResponse.toUserResponse(userService.editUser(userId, UserEntity.toUserEntity(userRequest)));
     }
 
     @DeleteMapping("/Delete/{userId}")

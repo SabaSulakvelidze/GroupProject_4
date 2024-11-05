@@ -1,6 +1,7 @@
 package com.example.GroupProject_4.model.request;
 
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 

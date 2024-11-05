@@ -13,7 +13,7 @@ public class UserResponse {
     private String userName;
     private LocalDate birthDate;
 
-    public static UserResponse from(UserEntity userEntity){
+    public static UserResponse toUserResponse(UserEntity userEntity){
         UserResponse userResponse = new UserResponse();
         userResponse.setId(userEntity.getId());
         userResponse.setFirstName(userEntity.getFirstName());

@@ -24,7 +24,7 @@ public class UserEntity {
 
     private LocalDate birthDate;
 
-    public static UserEntity from(UserRequest userRequest){
+    public static UserEntity toUserEntity(UserRequest userRequest){
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(userRequest.getFirstName());
         userEntity.setLastName(userRequest.getLastName());

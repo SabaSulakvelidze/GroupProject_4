@@ -22,7 +22,7 @@ public class CommentEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity owner;
 
-    public static CommentEntity from(CommentRequest commentRequest, PostEntity postEntity, UserEntity userEntity){
+    public static CommentEntity toCommentEntity(CommentRequest commentRequest, PostEntity postEntity, UserEntity userEntity){
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setText(commentRequest.getText());
         commentEntity.setPost(postEntity);
@@ -30,7 +30,7 @@ public class CommentEntity {
         return commentEntity;
     }
 
-    public static CommentEntity from(CommentRequest commentRequest){
+    public static CommentEntity toCommentEntity(CommentRequest commentRequest){
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setText(commentRequest.getText());
         return commentEntity;

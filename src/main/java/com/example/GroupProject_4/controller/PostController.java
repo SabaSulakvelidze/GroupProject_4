@@ -23,7 +23,7 @@ public class PostController {
                                           @RequestParam(defaultValue = "5") Integer pageSize,
                                           @RequestParam(defaultValue = "ASC") Sort.Direction direction,
                                           @RequestParam(defaultValue = "id") String sortBy) {
-        return postService.getAllPosts(pageNumber, pageSize, direction, sortBy).map(PostResponse::from);
+        return postService.getAllPosts(pageNumber, pageSize, direction, sortBy).map(PostResponse::toPostResponse);
     }
 
     @GetMapping("/GetAllPostsByUserId")
@@ -33,22 +33,22 @@ public class PostController {
                                                   @RequestParam(defaultValue = "ASC") Sort.Direction direction,
                                                   @RequestParam(defaultValue = "id") String sortBy) {
         userService.getUserById(ownerId);
-        return postService.getAllPostsByUserId(ownerId, pageNumber, pageSize, direction, sortBy).map(PostResponse::from);
+        return postService.getAllPostsByUserId(ownerId, pageNumber, pageSize, direction, sortBy).map(PostResponse::toPostResponse);
     }
 
     @GetMapping("/getSinglePost/{postId}")
     public PostResponse getPostById(@PathVariable Long postId) {
-        return PostResponse.from(postService.getPostById(postId));
+        return PostResponse.toPostResponse(postService.getPostById(postId));
     }
 
     @PostMapping("/CreateNewPost")
     public PostResponse createPost(@RequestBody PostRequest postRequest) {
-        return PostResponse.from(postService.createPost(PostEntity.from(postRequest, userService.getUserById(postRequest.getOwnerId()))));
+        return PostResponse.toPostResponse(postService.createPost(PostEntity.toPostEntity(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 
     @PutMapping("/EditPost/{postId}")
     public PostResponse editPost(@PathVariable Long postId, @RequestParam Long userId, @RequestBody PostRequest postRequest) {
-        return PostResponse.from(postService.editPost(postId, userId, PostEntity.from(postRequest, userService.getUserById(postRequest.getOwnerId()))));
+        return PostResponse.toPostResponse(postService.editPost(postId, userId, PostEntity.toPostEntity(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 
     @DeleteMapping("/Delete/{postId}")
