@@ -2,11 +2,14 @@ package com.example.GroupProject_4.model.Entity;
 
 import com.example.GroupProject_4.model.request.UserRequest;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {

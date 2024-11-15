@@ -1,11 +1,14 @@
 package com.example.GroupProject_4.model.response;
 
 import com.example.GroupProject_4.model.Entity.UserEntity;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserResponse {
     private Long id;
     private String firstName;

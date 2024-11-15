@@ -1,11 +1,13 @@
 package com.example.GroupProject_4.model.request;
 
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRequest {
     private String firstName;
     private String lastName;

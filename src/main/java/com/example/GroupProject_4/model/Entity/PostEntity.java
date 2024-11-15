@@ -2,9 +2,12 @@ package com.example.GroupProject_4.model.Entity;
 
 import com.example.GroupProject_4.model.request.PostRequest;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "posts")
 public class PostEntity {

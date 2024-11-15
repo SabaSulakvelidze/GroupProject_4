@@ -1,9 +1,12 @@
 package com.example.GroupProject_4.model.response;
 
 import com.example.GroupProject_4.model.Entity.PostEntity;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostResponse {
     private Long id;
     private String content;

@@ -2,9 +2,12 @@ package com.example.GroupProject_4.model.Entity;
 
 import com.example.GroupProject_4.model.request.CommentRequest;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "comments")
 public class CommentEntity {
