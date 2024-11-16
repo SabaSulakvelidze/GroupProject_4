@@ -4,6 +4,7 @@ import com.example.GroupProject_4.model.Entity.UserEntity;
 import com.example.GroupProject_4.model.request.UserRequest;
 import com.example.GroupProject_4.model.response.UserResponse;
 import com.example.GroupProject_4.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -30,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping("/CreateUser")
-    public UserResponse createUser(@RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
         return UserResponse.toUserResponse(userService.addNewUser(UserEntity.toUserEntity(userRequest)));
     }
 
     @PutMapping("/EditUser/{userId}")
-    public UserResponse editUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
+    public UserResponse editUser(@PathVariable Long userId, @RequestBody @Valid UserRequest userRequest) {
         return UserResponse.toUserResponse(userService.editUser(userId, UserEntity.toUserEntity(userRequest)));
     }
 

@@ -5,6 +5,7 @@ import com.example.GroupProject_4.model.request.PostRequest;
 import com.example.GroupProject_4.model.response.PostResponse;
 import com.example.GroupProject_4.service.PostService;
 import com.example.GroupProject_4.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -42,12 +43,12 @@ public class PostController {
     }
 
     @PostMapping("/CreateNewPost")
-    public PostResponse createPost(@RequestBody PostRequest postRequest) {
+    public PostResponse createPost(@RequestBody @Valid PostRequest postRequest) {
         return PostResponse.toPostResponse(postService.createPost(PostEntity.toPostEntity(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 
     @PutMapping("/EditPost/{postId}")
-    public PostResponse editPost(@PathVariable Long postId, @RequestParam Long userId, @RequestBody PostRequest postRequest) {
+    public PostResponse editPost(@PathVariable Long postId, @RequestParam Long userId, @RequestBody @Valid PostRequest postRequest) {
         return PostResponse.toPostResponse(postService.editPost(postId, userId, PostEntity.toPostEntity(postRequest, userService.getUserById(postRequest.getOwnerId()))));
     }
 

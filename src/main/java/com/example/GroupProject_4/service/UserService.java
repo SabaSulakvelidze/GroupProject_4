@@ -1,5 +1,6 @@
 package com.example.GroupProject_4.service;
 
+import com.example.GroupProject_4.exception.ResourceNotFoundException;
 import com.example.GroupProject_4.model.Entity.UserEntity;
 import com.example.GroupProject_4.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -25,7 +26,7 @@ public class UserService {
 
     public UserEntity getUserById(Long userId){
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User with id %d was not found".formatted(userId)));
+                .orElseThrow(() -> new ResourceNotFoundException("User with id %d was not found".formatted(userId)));
     }
 
     public String deleteUser(Long userId){

@@ -8,6 +8,7 @@ import com.example.GroupProject_4.model.response.CommentResponse;
 import com.example.GroupProject_4.service.CommentService;
 import com.example.GroupProject_4.service.PostService;
 import com.example.GroupProject_4.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -45,14 +46,14 @@ public class CommentController {
     }
 
     @PostMapping("/CreateComment")
-    public CommentResponse createComment(@RequestBody CommentRequest commentRequest) {
+    public CommentResponse createComment(@RequestBody @Valid CommentRequest commentRequest) {
         PostEntity postEntity = postService.getPostById(commentRequest.getPostId());
         UserEntity userEntity = userService.getUserById(commentRequest.getOwnerId());
         return CommentResponse.toCommentResponse(commentService.createComment(CommentEntity.toCommentEntity(commentRequest,postEntity,userEntity)));
     }
 
     @PutMapping("/EditComment/{commentId}")
-    public CommentResponse editComment(@PathVariable Long commentId, @RequestParam Long userId, @RequestBody CommentRequest commentRequest) {
+    public CommentResponse editComment(@PathVariable Long commentId, @RequestParam Long userId, @RequestBody @Valid CommentRequest commentRequest) {
         return CommentResponse.toCommentResponse(commentService.editComment(commentId,userId,CommentEntity.toCommentEntity(commentRequest)));
     }
 
