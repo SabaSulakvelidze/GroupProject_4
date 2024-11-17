@@ -14,6 +14,7 @@ public class UserRequest {
     @NotBlank(message = "firstName can not be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "firstName must contain only latin letters and no spaces")
     @Size(min = 2,max = 32, message = "firstName size must be between 2-32 characters")
+    @Schema(description = "firstName of the user", example = "John Doe", minLength = 2, maxLength = 32)
     private String firstName;
 
     @NotBlank(message = "lastName can not be empty")

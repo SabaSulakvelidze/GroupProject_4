@@ -8,3 +8,11 @@ spring:
     hibernate:
       ddl-auto: create
 #    show-sql: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    disable-default-urls: false
+  api-docs:
+    path: /api-docs
