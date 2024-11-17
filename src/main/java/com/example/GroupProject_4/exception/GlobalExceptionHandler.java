@@ -28,6 +28,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<ExceptionBody> handleUserPermissionException(UserPermissionException ex, HttpServletRequest request) {
+        HttpStatus notFound = HttpStatus.FORBIDDEN;
+        ExceptionBody exceptionBody = ExceptionBody.builder()
+                .messages(List.of(ex.getMessage()))
+                .timeStamp(LocalDateTime.now())
+                .httpStatusCode(notFound.value()+" "+notFound.name())
+                .endpoint(request.getRequestURI())
+                .build();
+        return ResponseEntity.status(notFound).body(exceptionBody);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ExceptionBody> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         ExceptionBody exceptionBody = ExceptionBody.builder()
