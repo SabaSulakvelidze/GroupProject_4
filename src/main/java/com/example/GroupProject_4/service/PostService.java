@@ -1,7 +1,8 @@
 package com.example.GroupProject_4.service;
 
+import com.example.GroupProject_4.exception.ResourceNotFoundException;
+import com.example.GroupProject_4.exception.UserPermissionException;
 import com.example.GroupProject_4.model.Entity.PostEntity;
-import com.example.GroupProject_4.model.Entity.UserEntity;
 import com.example.GroupProject_4.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -32,13 +33,13 @@ public class PostService {
 
     public PostEntity getPostById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post with id %d was not found".formatted(postId)));
+                .orElseThrow(() -> new ResourceNotFoundException("Post with id %d was not found".formatted(postId)));
     }
 
     public String deletePost(Long userId, Long postId) {
         PostEntity postById = getPostById(postId);
         if (!Objects.equals(postById.getOwner().getId(), userId))
-            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+            throw new UserPermissionException("User With id %d doesn't have permission for this action".formatted(userId));
         postRepository.delete(postById);
         return "Post with id %d was deleted".formatted(postId);
     }
@@ -47,7 +48,7 @@ public class PostService {
     public PostEntity editPost(Long postId, Long userId, PostEntity postEntity) {
         PostEntity postToEdit = getPostById(postId);
         if (!Objects.equals(postToEdit.getOwner().getId(), userId))
-            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+            throw new UserPermissionException("User With id %d doesn't have permission for this action".formatted(userId));
         postToEdit.setContent(postEntity.getContent());
         postToEdit.setOwner(postEntity.getOwner());
         return postToEdit;

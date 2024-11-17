@@ -1,7 +1,8 @@
 package com.example.GroupProject_4.service;
 
+import com.example.GroupProject_4.exception.ResourceNotFoundException;
+import com.example.GroupProject_4.exception.UserPermissionException;
 import com.example.GroupProject_4.model.Entity.CommentEntity;
-import com.example.GroupProject_4.model.Entity.PostEntity;
 import com.example.GroupProject_4.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -32,13 +33,13 @@ public class CommentService {
 
     public CommentEntity getCommentById(Long commentId) {
         return commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("Comment with id %d was not found".formatted(commentId)));
+                .orElseThrow(() -> new ResourceNotFoundException("Comment with id %d was not found".formatted(commentId)));
     }
 
     public String deleteComment(Long userId, Long commentId) {
         CommentEntity commentById = getCommentById(commentId);
         if (!Objects.equals(commentById.getOwner().getId(), userId))
-            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+            throw new UserPermissionException("User With id %d doesn't have permission for this action".formatted(userId));
         commentRepository.delete(commentById);
         return "Post with id %d was deleted".formatted(commentId);
     }
@@ -47,7 +48,7 @@ public class CommentService {
     public CommentEntity editComment(Long commentId, Long userId, CommentEntity commentEntity) {
         CommentEntity commentToEdit = getCommentById(commentId);
         if (!Objects.equals(commentToEdit.getOwner().getId(), userId))
-            throw new RuntimeException("User With id %d doesn't have permission for this action".formatted(userId));
+            throw new UserPermissionException("User With id %d doesn't have permission for this action".formatted(userId));
         commentToEdit.setText(commentEntity.getText());
         return commentToEdit;
     }
