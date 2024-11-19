@@ -1,8 +1,10 @@
 package com.example.GroupProject_4.controller;
 
+import com.example.GroupProject_4.model.Entity.CommentEntity;
 import com.example.GroupProject_4.model.Entity.PostEntity;
 import com.example.GroupProject_4.model.request.PostRequest;
 import com.example.GroupProject_4.model.response.PostResponse;
+import com.example.GroupProject_4.service.CommentService;
 import com.example.GroupProject_4.service.PostService;
 import com.example.GroupProject_4.service.UserService;
 import jakarta.validation.Valid;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
     private UserService userService;
 
     @GetMapping("/GetAllPosts")
@@ -54,6 +57,8 @@ public class PostController {
 
     @DeleteMapping("/Delete/{postId}")
     public String deletePost(@PathVariable Long postId, @RequestParam Long userId) {
+        Page<CommentEntity> id = commentService.getAllCommentsByPostId(postId, 0, 100, Sort.Direction.ASC, "id");
+        id.getContent().forEach(c->commentService.deleteComment(c.getId()));
         return postService.deletePost(userId, postId);
     }
 }

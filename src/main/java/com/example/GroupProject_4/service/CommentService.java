@@ -41,7 +41,13 @@ public class CommentService {
         if (!Objects.equals(commentById.getOwner().getId(), userId))
             throw new UserPermissionException("User With id %d doesn't have permission for this action".formatted(userId));
         commentRepository.delete(commentById);
-        return "Post with id %d was deleted".formatted(commentId);
+        return "Comment with id %d was deleted".formatted(commentId);
+    }
+
+    public void deleteComment(Long commentId) {
+        CommentEntity commentById = getCommentById(commentId);
+        commentRepository.delete(commentById);
+        System.out.printf("Comment with id %d was deleted%n", commentId);
     }
 
     @Transactional
