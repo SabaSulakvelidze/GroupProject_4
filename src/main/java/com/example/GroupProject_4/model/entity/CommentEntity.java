@@ -1,4 +1,4 @@
-package com.example.GroupProject_4.model.Entity;
+package com.example.GroupProject_4.model.entity;
 
 import com.example.GroupProject_4.model.request.CommentRequest;
 import jakarta.persistence.*;

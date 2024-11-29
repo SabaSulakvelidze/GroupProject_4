@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.model.response;
 
-import com.example.GroupProject_4.model.Entity.CommentEntity;
+import com.example.GroupProject_4.model.entity.CommentEntity;
 import lombok.*;
 
 @Getter

@@ -1,8 +1,10 @@
 package com.example.GroupProject_4.service;
 
+import com.example.GroupProject_4.FeignClients.ReqresFeign;
 import com.example.GroupProject_4.exception.ResourceNotFoundException;
-import com.example.GroupProject_4.model.Entity.UserEntity;
+import com.example.GroupProject_4.model.entity.UserEntity;
 import com.example.GroupProject_4.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,16 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private UserRepository userRepository;
+    private ReqresFeign reqresFeign;
+
+    @PostConstruct
+    public void importUsersFromFeign(){
+        reqresFeign.getAllUsers(0, 1_000).getData()
+                .stream()
+                //.peek(System.out::println)
+                .map(UserEntity::toUserEntity)
+                .forEach(this::addNewUser);
+    }
 
     public UserEntity addNewUser(UserEntity userEntity){
         return userRepository.save(userEntity);

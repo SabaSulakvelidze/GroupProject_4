@@ -33,5 +33,7 @@ public class UserRequest {
     @Past(message = "birthDate can not be in future")
     private LocalDate birthDate;
 
+    @Email(message = "Not a valid email")
+    private String email;
 
 }

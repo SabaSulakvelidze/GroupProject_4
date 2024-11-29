@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.controller;
 
-import com.example.GroupProject_4.model.Entity.UserEntity;
+import com.example.GroupProject_4.model.entity.UserEntity;
 import com.example.GroupProject_4.model.request.UserRequest;
 import com.example.GroupProject_4.model.response.UserResponse;
 import com.example.GroupProject_4.service.UserService;

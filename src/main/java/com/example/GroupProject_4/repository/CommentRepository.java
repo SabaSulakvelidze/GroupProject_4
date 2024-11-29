@@ -1,6 +1,6 @@
 package com.example.GroupProject_4.repository;
 
-import com.example.GroupProject_4.model.Entity.CommentEntity;
+import com.example.GroupProject_4.model.entity.CommentEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

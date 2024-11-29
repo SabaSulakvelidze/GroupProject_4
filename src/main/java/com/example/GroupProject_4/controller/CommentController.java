@@ -1,8 +1,8 @@
 package com.example.GroupProject_4.controller;
 
-import com.example.GroupProject_4.model.Entity.CommentEntity;
-import com.example.GroupProject_4.model.Entity.PostEntity;
-import com.example.GroupProject_4.model.Entity.UserEntity;
+import com.example.GroupProject_4.model.entity.CommentEntity;
+import com.example.GroupProject_4.model.entity.PostEntity;
+import com.example.GroupProject_4.model.entity.UserEntity;
 import com.example.GroupProject_4.model.request.CommentRequest;
 import com.example.GroupProject_4.model.response.CommentResponse;
 import com.example.GroupProject_4.service.CommentService;

@@ -1,7 +1,7 @@
 package com.example.GroupProject_4.controller;
 
-import com.example.GroupProject_4.model.Entity.CommentEntity;
-import com.example.GroupProject_4.model.Entity.PostEntity;
+import com.example.GroupProject_4.model.entity.CommentEntity;
+import com.example.GroupProject_4.model.entity.PostEntity;
 import com.example.GroupProject_4.model.request.PostRequest;
 import com.example.GroupProject_4.model.response.PostResponse;
 import com.example.GroupProject_4.service.CommentService;
@@ -57,8 +57,8 @@ public class PostController {
 
     @DeleteMapping("/Delete/{postId}")
     public String deletePost(@PathVariable Long postId, @RequestParam Long userId) {
-        Page<CommentEntity> id = commentService.getAllCommentsByPostId(postId, 0, 100, Sort.Direction.ASC, "id");
-        id.getContent().forEach(c->commentService.deleteComment(c.getId()));
+        commentService.getAllCommentsByPostId(postId, 0, 100, Sort.Direction.ASC, "id")
+                .getContent().forEach(c->commentService.deleteComment(c.getId()));
         return postService.deletePost(userId, postId);
     }
 }

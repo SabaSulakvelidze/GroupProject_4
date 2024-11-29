@@ -2,7 +2,7 @@ package com.example.GroupProject_4.service;
 
 import com.example.GroupProject_4.exception.ResourceNotFoundException;
 import com.example.GroupProject_4.exception.UserPermissionException;
-import com.example.GroupProject_4.model.Entity.CommentEntity;
+import com.example.GroupProject_4.model.entity.CommentEntity;
 import com.example.GroupProject_4.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
